@@ -44,7 +44,7 @@ A verdict is one hosted decision (one evidence packet), not one benchmark pair. 
 
 ## After you buy {#after-you-buy}
 
-Checkout returns here. Send the email you used at checkout to **kenneth@bosonit.org**. You receive a tenant token to store as repo secret `BENCH_GATE_TOKEN`. Until that token is mapped, the Action still works on the free anonymous tier.
+Checkout emails the tenant token to the address used at payment. Store it as the repo secret `BENCH_GATE_TOKEN`. The Action stays on the free anonymous tier until that mail arrives (usually within a minute).
 
 ## What the verdicts mean
 
