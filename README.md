@@ -9,7 +9,7 @@ Rerun a noisy CI benchmark **only until an anytime-valid test decides** — pass
 ```yaml
 - uses: actions/checkout@v4
   with: { fetch-depth: 0 }
-- uses: kacj77/bench-gate@v0
+- uses: BosonIT-org/bench-gate@v0
   with:
     bench-command: "pytest bench --benchmark-json out.json -q"
     results: out.json            # pytest-benchmark JSON, Criterion.rs directory, or `go test -bench` text
