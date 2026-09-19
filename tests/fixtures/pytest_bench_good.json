@@ -1,0 +1,4 @@
+{"machine_info": {"node": "runner"}, "benchmarks": [
+  {"name": "test_update_batch[200]", "stats": {"mean": 0.0123, "median": 0.0121, "rounds": 25, "iterations": 1}},
+  {"name": "test_interval", "stats": {"mean": 0.00021, "median": 0.0002, "rounds": 500, "iterations": 1}}
+]}
