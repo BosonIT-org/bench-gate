@@ -1,10 +1,16 @@
 # bench-gate
 
-Rerun a noisy CI benchmark **only until an anytime-valid test decides** — pass, fail, or honestly *inconclusive* — instead of "run it three times and squint."
+Stop rerunning a noisy CI benchmark an arbitrary number of times and squinting.
 
-`bench-gate` alternates baseline and candidate runs on the same runner, pairs them, and maintains a confidence sequence on the mean log-ratio `ln(candidate / baseline)`. Because the interval is valid at every look, stopping at the first decisive verdict is legitimate: a 25% regression is usually caught in five pairs; identical code on a quiet runner passes a 5% margin in about nine; and when the runner is too noisy to tell, it says so rather than guessing.
+`bench-gate` pairs baseline and candidate runs on the same runner and keeps an anytime-valid interval on the mean log-ratio. Because the interval is valid at every look, the first decisive verdict is legitimate: **pass**, **fail**, or honestly **inconclusive**.
 
-## Use it
+**Hosted tenant: $19 / month.** Named packets, fetchable evidence, authenticated limits.
+
+[Buy hosted tenant — $19/month](https://pay.crawlyield.bosonit.org/b/00wfZg8c03zq2SJgF60Jq0o) · [Marketplace listing](https://github.com/marketplace/actions/bench-gate) · [Product page](https://www.bosonit.org/bench-gate/)
+
+The Action itself is free. Anonymous traffic uses the hosted verdict service with a rate limit. Pay when you want a named tenant, persisted evidence you can fetch, and authenticated limits.
+
+## Install (one block)
 
 ```yaml
 - uses: actions/checkout@v4
@@ -15,13 +21,29 @@ Rerun a noisy CI benchmark **only until an anytime-valid test decides** — pass
     results: out.json            # pytest-benchmark JSON, Criterion.rs directory, or `go test -bench` text
     margin: "0.05"               # tolerated slowdown (5%). 2% needs quiet, self-hosted runners.
     max-pairs: "20"
-    # No endpoint needed: verdicts come from BosonIT's hosted service (free tier, anonymous, rate limited).
-    # Optional: env BENCH_GATE_TOKEN for a tenant key; input `endpoint` to point at another service.
+  env:
+    BENCH_GATE_TOKEN: ${{ secrets.BENCH_GATE_TOKEN }}   # paid tenant; omit for free anonymous
 ```
 
 The step writes a verdict table to the job summary and sets outputs `verdict` (`pass` / `fail` / `inconclusive`), `pairs`, and `report`. It exits non-zero on `fail`; set `fail-on-inconclusive: "true"` to also block when the budget is spent without a decision.
 
 Formats: **pytest-benchmark** JSON (`--benchmark-json`), **Criterion.rs** (`target/criterion/`), **Go** (`go test -bench`). Anything malformed yields *inconclusive*, never *pass*.
+
+## Free vs paid
+
+| | Free (anonymous) | Hosted tenant · $19/month |
+|---|---|---|
+| Anytime-valid pass / fail / inconclusive | Yes | Yes |
+| Hosted verdict service | Yes, rate limited | Yes, authenticated |
+| Name on evidence packets | `anonymous` | Your tenant name |
+| Fetch packets back | By id knowledge only | Tenant-scoped |
+| Setup | One workflow block | Same block + `BENCH_GATE_TOKEN` |
+
+List price is **$19 / month**, billed by Stripe. Terms: [bosonit.org/terms](https://www.bosonit.org/terms/). Privacy: [bosonit.org/privacy](https://www.bosonit.org/privacy/).
+
+## After you buy {#after-you-buy}
+
+Checkout returns here. Send the email you used at checkout to **kenneth@bosonit.org**. You receive a tenant token to store as repo secret `BENCH_GATE_TOKEN`. Until that token is mapped, the Action still works on the free anonymous tier.
 
 ## What the verdicts mean
 
