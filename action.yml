@@ -1,5 +1,5 @@
 name: "bench-gate"
-description: "Rerun a noisy benchmark only until an anytime-valid test decides: pass, fail, or honestly inconclusive. Sequential paired comparison against a baseline ref with a confidence sequence valid at every look."
+description: "Rerun a noisy benchmark until an anytime-valid test says pass, fail, or honestly inconclusive."
 author: "BosonIT, LLC"
 branding:
   icon: "activity"
