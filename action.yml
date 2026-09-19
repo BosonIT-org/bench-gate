@@ -1,0 +1,69 @@
+name: "bench-gate"
+description: "Rerun a noisy benchmark only until an anytime-valid test decides: pass, fail, or honestly inconclusive. Sequential paired comparison against a baseline ref with a confidence sequence valid at every look."
+author: "BosonIT, LLC"
+branding:
+  icon: "activity"
+  color: "blue"
+inputs:
+  bench-command:
+    description: "Shell command that runs the benchmark and writes results (run in both the baseline worktree and the candidate tree)."
+    required: true
+  results:
+    description: "Path to the results file/dir written by bench-command, relative to the tree it runs in."
+    required: true
+  format:
+    description: "auto | pytest-benchmark | criterion | go-bench"
+    default: "auto"
+  baseline-ref:
+    description: "Git ref for the baseline (default: the PR base ref, else origin/main)."
+    default: ""
+  margin:
+    description: "Tolerated relative slowdown, e.g. 0.05 for 5%. 2% needs quiet (self-hosted) runners."
+    default: "0.05"
+  alpha:
+    description: "Error level; the verdict's false-fail rate is bounded by alpha at any stopping time."
+    default: "0.05"
+  max-pairs:
+    description: "Rerun budget (pairs of baseline+candidate runs)."
+    default: "20"
+  mode:
+    description: "auto | local | endpoint. Public users: endpoint. Boson repositories: local (private core installed by the workflow)."
+    default: "auto"
+  endpoint:
+    description: "Hosted verdict service URL (endpoint mode)."
+    default: ""
+  fail-on-inconclusive:
+    description: "Fail the check when the budget is spent without a verdict."
+    default: "false"
+outputs:
+  verdict:
+    description: "pass | fail | inconclusive"
+    value: ${{ steps.gate.outputs.verdict }}
+  pairs:
+    description: "Number of baseline/candidate pairs used"
+    value: ${{ steps.gate.outputs.pairs }}
+  report:
+    description: "Path to the JSON report"
+    value: ${{ steps.gate.outputs.report }}
+runs:
+  using: "composite"
+  steps:
+    - name: Install bench-gate
+      shell: bash
+      run: python3 -m pip install --quiet "${{ github.action_path }}"
+    - name: Gate
+      id: gate
+      shell: bash
+      env:
+        BENCH_GATE_ENDPOINT: ${{ inputs.endpoint }}
+        BENCH_GATE_TOKEN: ${{ env.BENCH_GATE_TOKEN }}
+      run: |
+        BASE="${{ inputs.baseline-ref }}"
+        if [ -z "$BASE" ]; then
+          if [ -n "${{ github.base_ref }}" ]; then BASE="origin/${{ github.base_ref }}"; else BASE="origin/main"; fi
+        fi
+        git fetch --quiet origin "${BASE#origin/}" || true
+        ARGS=(run --bench-command "${{ inputs.bench-command }}" --results "${{ inputs.results }}" --format "${{ inputs.format }}" \
+              --baseline-ref "$BASE" --margin "${{ inputs.margin }}" --alpha "${{ inputs.alpha }}" --max-pairs "${{ inputs.max-pairs }}" --mode "${{ inputs.mode }}")
+        if [ "${{ inputs.fail-on-inconclusive }}" = "true" ]; then ARGS+=(--fail-on-inconclusive); fi
+        bench-gate "${ARGS[@]}"

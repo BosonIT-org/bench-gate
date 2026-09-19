@@ -1,0 +1,161 @@
+{
+  "stage": "adapter",
+  "adapter": "bench-gate",
+  "version": "0.1.0",
+  "verifier": [
+    {
+      "name": "bench-gate-false-alarm-noise-0.01",
+      "kind": "simulator",
+      "result": "pass",
+      "score": 0.0,
+      "threshold": 0.07,
+      "detail": {
+        "scale": 1.0,
+        "sigma": 0.01,
+        "outlier_p": 0.05,
+        "fail_rate": 0.0,
+        "pass_rate": 0.5895,
+        "inconclusive_rate": 0.4105,
+        "median_pairs_to_verdict": 9.0
+      }
+    },
+    {
+      "name": "bench-gate-false-alarm-noise-0.05",
+      "kind": "simulator",
+      "result": "pass",
+      "score": 0.00035,
+      "threshold": 0.07,
+      "detail": {
+        "scale": 1.0,
+        "sigma": 0.05,
+        "outlier_p": 0.05,
+        "fail_rate": 0.00035,
+        "pass_rate": 0.34245,
+        "inconclusive_rate": 0.6572,
+        "median_pairs_to_verdict": 11.0
+      }
+    },
+    {
+      "name": "bench-gate-false-alarm-noise-0.10",
+      "kind": "simulator",
+      "result": "pass",
+      "score": 0.00605,
+      "threshold": 0.07,
+      "detail": {
+        "scale": 1.0,
+        "sigma": 0.1,
+        "outlier_p": 0.05,
+        "fail_rate": 0.00605,
+        "pass_rate": 0.20075,
+        "inconclusive_rate": 0.7932,
+        "median_pairs_to_verdict": 8.0
+      }
+    },
+    {
+      "name": "bench-gate-power-regression-15pct",
+      "kind": "simulator",
+      "result": "pass",
+      "score": 0.72535,
+      "threshold": 0.6,
+      "detail": {
+        "scale": 1.15,
+        "sigma": 0.05,
+        "outlier_p": 0.05,
+        "fail_rate": 0.72535,
+        "pass_rate": 0.0,
+        "inconclusive_rate": 0.27465,
+        "median_pairs_to_verdict": 6.0
+      }
+    },
+    {
+      "name": "bench-gate-miss-regression-15pct",
+      "kind": "simulator",
+      "result": "pass",
+      "score": 0.0,
+      "threshold": 0.01,
+      "detail": {
+        "note": "a real regression must not be passed",
+        "scale": 1.15,
+        "sigma": 0.05,
+        "outlier_p": 0.05,
+        "fail_rate": 0.72535,
+        "pass_rate": 0.0,
+        "inconclusive_rate": 0.27465,
+        "median_pairs_to_verdict": 6.0
+      }
+    },
+    {
+      "name": "bench-gate-power-regression-25pct",
+      "kind": "simulator",
+      "result": "pass",
+      "score": 0.94115,
+      "threshold": 0.85,
+      "detail": {
+        "scale": 1.25,
+        "sigma": 0.05,
+        "outlier_p": 0.05,
+        "fail_rate": 0.94115,
+        "pass_rate": 0.0,
+        "inconclusive_rate": 0.05885,
+        "median_pairs_to_verdict": 5.0
+      }
+    },
+    {
+      "name": "bench-gate-miss-regression-25pct",
+      "kind": "simulator",
+      "result": "pass",
+      "score": 0.0,
+      "threshold": 0.01,
+      "detail": {
+        "note": "a real regression must not be passed",
+        "scale": 1.25,
+        "sigma": 0.05,
+        "outlier_p": 0.05,
+        "fail_rate": 0.94115,
+        "pass_rate": 0.0,
+        "inconclusive_rate": 0.05885,
+        "median_pairs_to_verdict": 5.0
+      }
+    },
+    {
+      "name": "bench-gate-usability-pass-identical-quiet-runner",
+      "kind": "simulator",
+      "result": "pass",
+      "score": 0.58795,
+      "threshold": 0.5,
+      "detail": {
+        "scale": 1.0,
+        "sigma": 0.01,
+        "outlier_p": 0.05,
+        "fail_rate": 5e-05,
+        "pass_rate": 0.58795,
+        "inconclusive_rate": 0.412,
+        "median_pairs_to_verdict": 9.0
+      }
+    },
+    {
+      "name": "bench-gate-known-bad-single-pair-rule",
+      "kind": "simulator",
+      "result": "pass",
+      "score": 0.27315,
+      "threshold": 0.07,
+      "detail": {
+        "note": "the naive 'fail if the first ratio exceeds the margin' rule must be detected as unacceptable; this record passes when it is"
+      }
+    }
+  ],
+  "artifact_terminal": true,
+  "result": "pass",
+  "generated_at_utc": "2026-09-19T09:24:21.435792+00:00",
+  "defaults": {
+    "min_pairs": 5,
+    "prior_noise": 0.1,
+    "prior_weight": 2.0,
+    "robust_clip": 0.35,
+    "running_intersection": false,
+    "margin": 0.05,
+    "max_pairs": 20,
+    "alpha": 0.05
+  },
+  "history": "2026-09-19: first defaults (min_pairs 3, prior 5%, no winsorizing, intersection on) measured 7.8%/21.6% false alarms at 5%/10% noise and 4% passes on real 25% regressions; defaults reset from a grid search against this suite."
+}

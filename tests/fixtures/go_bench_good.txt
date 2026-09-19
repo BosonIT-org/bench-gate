@@ -1,0 +1,6 @@
+goos: linux
+goarch: amd64
+BenchmarkUpdate-8        1000000              1234 ns/op             0 B/op          0 allocs/op
+BenchmarkInterval-8     20000000                61.5 ns/op
+PASS
+ok      example.com/cs  3.210s
