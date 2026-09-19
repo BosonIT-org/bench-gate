@@ -6,7 +6,7 @@ Stop rerunning a noisy CI benchmark an arbitrary number of times and squinting.
 
 **Hosted tenant: $19 / month**, including **2,000 verdicts**. After that, **$0.01 per verdict**. Named packets, fetchable evidence, authenticated limits.
 
-[Buy hosted tenant — $19/month](https://pay-bench-gate.bosonit.org/) · [Marketplace listing](https://github.com/marketplace/actions/bench-gate) · [Product page](https://www.bosonit.org/bench-gate/)
+[Buy hosted tenant — $19/month](https://buy.stripe.com/00wfZg8c03zq2SJgF60Jq0o) · [Marketplace listing](https://github.com/marketplace/actions/bench-gate) · [Product page](https://www.bosonit.org/bench-gate/)
 
 The Action itself is free. Anonymous traffic uses the hosted verdict service with a rate limit. Pay when you want a named tenant and a billed evidence trail. Checkout is the monthly tenant; usage above the included 2,000 is metered from the same packets the service stores.
 
