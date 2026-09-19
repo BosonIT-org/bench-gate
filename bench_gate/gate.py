@@ -212,7 +212,13 @@ class EndpointGate:
             return [BenchVerdict(name, "inconclusive", None, None, len(ps), f"verdict service unavailable or malformed response: {exc}") for name, ps in pairs.pairs.items()]
 
 
+# The hosted verdict service (BosonIT control plane). Public users need no configuration: auto mode falls back to
+# it when the private core is not installed. Override with --endpoint / BENCH_GATE_ENDPOINT.
+DEFAULT_ENDPOINT = "https://boson-verdict.crawlyield.workers.dev"
+
+
 def make_gate(mode: str, alpha: float, margin: float, max_pairs: int, endpoint: str | None = None, token: str | None = None, clip: float = DEFAULT_CLIP, method: str = "asymptotic"):
+    endpoint = endpoint or DEFAULT_ENDPOINT
     if mode == "local":
         return LocalGate(alpha, margin, max_pairs, clip, method)
     if mode == "endpoint":

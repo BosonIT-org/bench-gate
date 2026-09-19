@@ -30,8 +30,8 @@ inputs:
     description: "auto | local | endpoint. Public users: endpoint. Boson repositories: local (private core installed by the workflow)."
     default: "auto"
   endpoint:
-    description: "Hosted verdict service URL (endpoint mode)."
-    default: ""
+    description: "Hosted verdict service URL. Default: BosonIT's hosted service (free tier, anonymous, rate limited); set BENCH_GATE_TOKEN for a tenant key."
+    default: "https://boson-verdict.crawlyield.workers.dev"
   fail-on-inconclusive:
     description: "Fail the check when the budget is spent without a verdict."
     default: "false"

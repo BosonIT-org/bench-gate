@@ -72,6 +72,20 @@ def test_overall_precedence():
     assert overall([])[0] == "inconclusive"
 
 
+def test_auto_mode_defaults_to_the_hosted_endpoint(monkeypatch):
+    import builtins, bench_gate.gate as gm
+    real_import = builtins.__import__
+    def no_core(name, *a, **k):
+        if name.startswith("boson_cs"):
+            raise ImportError("private core absent")
+        return real_import(name, *a, **k)
+    monkeypatch.setattr(builtins, "__import__", no_core)
+    g = gm.make_gate("auto", 0.05, 0.05, 20, endpoint=None)
+    assert isinstance(g, gm.EndpointGate) and g.url.startswith(gm.DEFAULT_ENDPOINT)
+    g2 = gm.make_gate("endpoint", 0.05, 0.05, 20, endpoint="https://verdict.example")
+    assert g2.url == "https://verdict.example/v1/benchmark/verdict"
+
+
 def test_endpoint_gate_sends_identifying_user_agent_and_json():
     from bench_gate.gate import EndpointGate
     g = EndpointGate("https://verdict.example", alpha=0.05, margin=0.05, max_pairs=20, token="abc")

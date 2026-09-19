@@ -15,7 +15,8 @@ Rerun a noisy CI benchmark **only until an anytime-valid test decides** — pass
     results: out.json            # pytest-benchmark JSON, Criterion.rs directory, or `go test -bench` text
     margin: "0.05"               # tolerated slowdown (5%). 2% needs quiet, self-hosted runners.
     max-pairs: "20"
-    endpoint: ${{ vars.BENCH_GATE_ENDPOINT }}   # hosted verdict service
+    # No endpoint needed: verdicts come from BosonIT's hosted service (free tier, anonymous, rate limited).
+    # Optional: env BENCH_GATE_TOKEN for a tenant key; input `endpoint` to point at another service.
 ```
 
 The step writes a verdict table to the job summary and sets outputs `verdict` (`pass` / `fail` / `inconclusive`), `pairs`, and `report`. It exits non-zero on `fail`; set `fail-on-inconclusive: "true"` to also block when the budget is spent without a decision.
@@ -40,7 +41,7 @@ With several benchmarks, each is tested at `alpha / k` (Bonferroni), so "nothing
 
 ## Modes
 
-- **endpoint** (public users): pairs are posted to the hosted verdict service, which holds the mathematics. An unreachable or malformed service yields *inconclusive*, never *pass*.
+- **endpoint** (public users): pairs are posted to the hosted verdict service (`https://boson-verdict.crawlyield.workers.dev` by default), which holds the mathematics and stores every verdict as an evidence packet you can fetch back. An unreachable or malformed service yields *inconclusive*, never *pass*. The client identifies itself (`User-Agent: bench-gate/<version>`); Cloudflare rejects anonymous default agents.
 - **local** (Boson's own repositories): the private core package is installed by the workflow and runs in-process.
 - **auto**: local if the core is importable, else endpoint.
 

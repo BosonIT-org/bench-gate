@@ -45,7 +45,7 @@ def main(argv: list[str] | None = None) -> int:
     r.add_argument("--alpha", type=float, default=0.05)
     r.add_argument("--max-pairs", type=int, default=20)
     r.add_argument("--mode", default="auto", choices=["auto", "local", "endpoint"])
-    r.add_argument("--endpoint", default=os.environ.get("BENCH_GATE_ENDPOINT"))
+    r.add_argument("--endpoint", default=os.environ.get("BENCH_GATE_ENDPOINT") or None)
     r.add_argument("--token", default=os.environ.get("BENCH_GATE_TOKEN"))
     r.add_argument("--report", default=".bench-gate/report.json")
     r.add_argument("--fail-on-inconclusive", action="store_true")
@@ -57,7 +57,7 @@ def main(argv: list[str] | None = None) -> int:
     e.add_argument("--alpha", type=float, default=0.05)
     e.add_argument("--max-pairs", type=int, default=20)
     e.add_argument("--mode", default="auto", choices=["auto", "local", "endpoint"])
-    e.add_argument("--endpoint", default=os.environ.get("BENCH_GATE_ENDPOINT"))
+    e.add_argument("--endpoint", default=os.environ.get("BENCH_GATE_ENDPOINT") or None)
 
     q = sub.add_parser("parse")
     q.add_argument("results")
