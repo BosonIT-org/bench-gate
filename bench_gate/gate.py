@@ -192,7 +192,7 @@ class EndpointGate:
         headers = {
             "content-type": "application/json",
             "accept": "application/json",
-            "user-agent": f"bench-gate/{__version__} (+https://github.com/kacj77/bench-gate)",
+            "user-agent": f"bench-gate/{__version__} (+https://github.com/BosonIT-org/bench-gate)",
             **({"authorization": f"Bearer {self.token}"} if self.token else {}),
         }
         return urllib.request.Request(self.url, data=body, headers=headers, method="POST")
