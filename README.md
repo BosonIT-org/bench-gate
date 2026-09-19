@@ -4,11 +4,11 @@ Stop rerunning a noisy CI benchmark an arbitrary number of times and squinting.
 
 `bench-gate` pairs baseline and candidate runs on the same runner and keeps an anytime-valid interval on the mean log-ratio. Because the interval is valid at every look, the first decisive verdict is legitimate: **pass**, **fail**, or honestly **inconclusive**.
 
-**Hosted tenant: $19 / month.** Named packets, fetchable evidence, authenticated limits.
+**Hosted tenant: $19 / month**, including **2,000 verdicts**. After that, **$0.01 per verdict**. Named packets, fetchable evidence, authenticated limits.
 
 [Buy hosted tenant — $19/month](https://pay.crawlyield.bosonit.org/b/00wfZg8c03zq2SJgF60Jq0o) · [Marketplace listing](https://github.com/marketplace/actions/bench-gate) · [Product page](https://www.bosonit.org/bench-gate/)
 
-The Action itself is free. Anonymous traffic uses the hosted verdict service with a rate limit. Pay when you want a named tenant, persisted evidence you can fetch, and authenticated limits.
+The Action itself is free. Anonymous traffic uses the hosted verdict service with a rate limit. Pay when you want a named tenant and a billed evidence trail. Checkout is the monthly tenant; usage above the included 2,000 is metered from the same packets the service stores.
 
 ## Install (one block)
 
@@ -37,9 +37,10 @@ Formats: **pytest-benchmark** JSON (`--benchmark-json`), **Criterion.rs** (`targ
 | Hosted verdict service | Yes, rate limited | Yes, authenticated |
 | Name on evidence packets | `anonymous` | Your tenant name |
 | Fetch packets back | By id knowledge only | Tenant-scoped |
+| Verdicts billed | Not billed | 2,000 included, then $0.01 each |
 | Setup | One workflow block | Same block + `BENCH_GATE_TOKEN` |
 
-List price is **$19 / month**, billed by Stripe. Terms: [bosonit.org/terms](https://www.bosonit.org/terms/). Privacy: [bosonit.org/privacy](https://www.bosonit.org/privacy/).
+A verdict is one hosted decision (one evidence packet), not one benchmark pair. A typical repo stays inside the included 2,000. List price is **$19 / month** plus metered overage, billed by Stripe. Terms: [bosonit.org/terms](https://www.bosonit.org/terms/). Privacy: [bosonit.org/privacy](https://www.bosonit.org/privacy/).
 
 ## After you buy {#after-you-buy}
 
