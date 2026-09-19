@@ -180,12 +180,25 @@ class EndpointGate:
         self.url = endpoint.rstrip("/") + "/v1/benchmark/verdict"
         self.alpha, self.margin, self.max_pairs, self.clip, self.timeout, self.token = alpha, margin, max_pairs, clip, timeout, token
 
-    def evaluate(self, pairs: PairSet) -> list[BenchVerdict]:
+    def build_request(self, pairs: PairSet) -> urllib.request.Request:
+        """The exact request sent to the verdict service (tested; the User-Agent matters: Cloudflare's
+        browser-integrity check returns 403/1010 for Python's default agent string)."""
+        from . import __version__
+
         body = json.dumps({
             "alpha": self.alpha, "margin": self.margin, "clip": self.clip, "max_pairs": self.max_pairs,
             "benchmarks": pairs.as_dict(),
         }).encode()
-        req = urllib.request.Request(self.url, data=body, headers={"content-type": "application/json", **({"authorization": f"Bearer {self.token}"} if self.token else {})}, method="POST")
+        headers = {
+            "content-type": "application/json",
+            "accept": "application/json",
+            "user-agent": f"bench-gate/{__version__} (+https://github.com/kacj77/bench-gate)",
+            **({"authorization": f"Bearer {self.token}"} if self.token else {}),
+        }
+        return urllib.request.Request(self.url, data=body, headers=headers, method="POST")
+
+    def evaluate(self, pairs: PairSet) -> list[BenchVerdict]:
+        req = self.build_request(pairs)
         try:
             with urllib.request.urlopen(req, timeout=self.timeout) as resp:
                 doc = json.loads(resp.read().decode())

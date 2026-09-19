@@ -72,6 +72,17 @@ def test_overall_precedence():
     assert overall([])[0] == "inconclusive"
 
 
+def test_endpoint_gate_sends_identifying_user_agent_and_json():
+    from bench_gate.gate import EndpointGate
+    g = EndpointGate("https://verdict.example", alpha=0.05, margin=0.05, max_pairs=20, token="abc")
+    ps = PairSet(); ps.add("b", 1.0, 1.1)
+    req = g.build_request(ps)
+    assert req.full_url == "https://verdict.example/v1/benchmark/verdict" and req.get_method() == "POST"
+    assert req.get_header("User-agent", "").startswith("bench-gate/")   # Cloudflare 1010 otherwise
+    assert req.get_header("Content-type") == "application/json" and req.get_header("Authorization") == "Bearer abc"
+    assert json.loads(req.data)["benchmarks"]["b"]["pairs"] == [[1.0, 1.1]]
+
+
 def test_endpoint_gate_fails_closed_when_unreachable():
     from bench_gate.gate import EndpointGate
     g = EndpointGate("http://127.0.0.1:9", alpha=0.05, margin=0.02, max_pairs=5, timeout=0.5)
